@@ -1,56 +1,47 @@
 <template>
-  <div>
-    <h1>Cookie Value Text Display</h1>
-    <p v-if="count === 1">This is the default text when cookie value is 1!</p>
-    <p v-else-if="count === 2">You changed the cookie value to 2!</p>
-    <p v-else-if="count === 3">Now the cookie value is 3!</p>
-    <p v-else-if="count === 4">The cookie value has been changed to 4!</p>
-    <p v-else-if="count === 5">High five! The cookie value is 5!</p>
-    <p v-else-if="count === 6">You reached 6 in the cookie value!</p>
-    <p v-else>The cookie value is {{ count }}!</p>
+  <div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">
+      Cookie Value Text Display
+    </h1>
+    <p class="text-lg mb-4 text-gray-600">
+      {{ kueName }}
+    </p>
 
-    <div class="current-value">
-      <p>Current cookie value: {{ count }}</p>
+    <div class="flex space-x-4">
+    </div>
+
+    <div class="mt-6 p-4 bg-white rounded-lg shadow-md">
+      <p class="text-gray-700">Current cookie value: <strong>{{ count }}</strong></p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCounterStore } from '~/stores/counter'
+import { cookiesList } from '~/data/cookies'
 
 const store = useCounterStore()
 const cookie = useCookie('counter', {
   default: () => 1,
-  watch: true
+  watch: true,
 })
 
-// Initialize store with cookie value
 store.setCount(cookie.value)
 
-// Watch for store changes and update cookie
 watch(() => store.count, (newValue) => {
   cookie.value = newValue
 })
 
-// Computed property to get the current count
 const count = computed(() => store.count)
+const kueName = computed(() => {
+  return cookiesList[count.value - 1] || '404 NOT FOUND.'
+})
+
+function updateCount(value: number) {
+  store.setCount(value)
+}
 </script>
 
-<style scoped>
-h1 {
-  margin-bottom: 2rem;
-  color: #2c3e50;
-}
-
-p {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-}
-
-.current-value {
-  margin-top: 2rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
+<style>
+/* Tailwind CSS handles most of the styling */
 </style>
