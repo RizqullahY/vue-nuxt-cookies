@@ -12,6 +12,6 @@ export const cookiesList = [
     "Pie",
     "Puding",
     "Tiramisu",
-    "CTFRRY{cOkl4t_Z3D4P}"
+    "CTFRRY{COkl4t_Z3D4P}"
   ];
   
